@@ -1,0 +1,51 @@
+#!/bin/python3
+
+
+#import the necessary modules
+
+import sys
+import socket
+from datetime import datetime
+
+
+#define target and convert hostname to ip
+
+
+target = None
+
+if len(sys.argv) == 2:
+        target = socket.gethostbyname(sys.argv[1])
+else:
+        print("Inaccurate arguments.")
+        sys.exit()
+
+
+#For clear appeal
+
+print("-" * 60)
+print("scanning target " + target)
+print("Time started: " + str(datetime.now()))
+print("-" * 60)
+
+try:
+      for port in range(50, 85):
+              s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+              socket.setdefaulttimeout(1)
+              result = s.connect_ex((target, port))
+
+
+
+             #if port is open, the indicator returns 0,else return 1
+
+
+              if result == 0:
+                   print("Port {} is open".format(port))
+              s.close()
+
+except keyboardInterrupt:
+           print("\nProgram got interrupted.")
+           sys.exit()
+
+except socket.error:
+          print("Couldn't connect to the server.")
+          sys.exit()
